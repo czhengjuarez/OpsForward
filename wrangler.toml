@@ -1,0 +1,44 @@
+name = "ops-forward-api"
+main = "worker/src/index.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "px-tester-db"
+database_id = "04077aab-abb7-4663-8049-6a2ba62f95d5"
+migrations_dir = "worker/migrations"
+
+# Vectorize binding for AI embeddings
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "site-search"
+
+# R2 bucket for screenshots
+[[r2_buckets]]
+binding = "SCREENSHOTS"
+bucket_name = "px-tester-screenshots"
+
+# Workers AI binding
+[ai]
+binding = "AI"
+
+# Browser Rendering binding
+[browser]
+binding = "BROWSER"
+
+# CORS configuration
+[vars]
+FRONTEND_URL = "https://demo.pxtester.com"
+GOOGLE_REDIRECT_URI = "https://px-tester-api.px-tester.workers.dev/api/auth/google/callback"
+
+# Observability - Logging configuration
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
