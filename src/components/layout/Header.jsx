@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Button } from '@cloudflare/kumo'
+import { Button } from '../ui/Button'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { Plus } from '@phosphor-icons/react/dist/csr/Plus'
 import { useAuth } from '../../contexts/AuthContext'
@@ -39,7 +39,7 @@ export default function Header() {
                 <MagnifyingGlass size={20} />
               </Button>
             </Link>
-            
+
             {isAuthenticated ? (
               <>
                 <Link to="/submit" className="inline-flex">

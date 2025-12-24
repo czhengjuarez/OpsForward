@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Text, Button } from '@cloudflare/kumo'
+import { Text } from '../components/ui/Text'
+import { Button } from '../components/ui/Button'
 import { Faders } from '@phosphor-icons/react/dist/csr/Faders'
 import SiteCard from '../components/site/SiteCard'
 import { LoadingGrid, ErrorMessage, EmptyState } from '../components/common/LoadingStates'
@@ -20,7 +21,7 @@ export default function Browse() {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const response = await fetch(`${API_URL}/categories`)
       const data = await response.json()
-      
+
       // Prepend "All Sites" option to the categories from database
       const allCategories = [
         { id: 'all', name: 'All Sites' },
@@ -62,7 +63,7 @@ export default function Browse() {
             <Faders size={24} className="text-gray-600 dark:text-gray-400" aria-label="Filter icon" />
             <Text weight="semibold">Filter by Category</Text>
           </div>
-          
+
           <div className="flex flex-wrap gap-2 mb-6">
             {categories.map((category) => (
               <button
@@ -71,11 +72,10 @@ export default function Browse() {
                   setSelectedCategory(category.id)
                   setPage(1)
                 }}
-                className={`px-4 py-2 rounded-lg transition-all border-2 ${
-                  selectedCategory === category.id
+                className={`px-4 py-2 rounded-lg transition-all border-2 ${selectedCategory === category.id
                     ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-medium'
                     : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
-                }`}
+                  }`}
               >
                 <Text weight="medium">{category.name}</Text>
               </button>
@@ -98,11 +98,10 @@ export default function Browse() {
                     setSortBy(option.value)
                     setPage(1)
                   }}
-                  className={`px-3 py-1.5 rounded-md text-sm transition-all border-2 ${
-                    sortBy === option.value
+                  className={`px-3 py-1.5 rounded-md text-sm transition-all border-2 ${sortBy === option.value
                       ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-medium'
                       : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
-                  }`}
+                    }`}
                 >
                   {option.label}
                 </button>
@@ -147,7 +146,7 @@ export default function Browse() {
                 >
                   Previous
                 </Button>
-                
+
                 <div className="flex items-center gap-2">
                   {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
                     let pageNum
@@ -160,16 +159,15 @@ export default function Browse() {
                     } else {
                       pageNum = page - 2 + i
                     }
-                    
+
                     return (
                       <button
                         key={pageNum}
                         onClick={() => setPage(pageNum)}
-                        className={`w-10 h-10 rounded-lg transition-all border ${
-                          page === pageNum
+                        className={`w-10 h-10 rounded-lg transition-all border ${page === pageNum
                             ? 'border-blue-600 bg-blue-600 text-white'
                             : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500'
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </button>

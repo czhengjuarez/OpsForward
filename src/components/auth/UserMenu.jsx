@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Text } from '@cloudflare/kumo';
+import { Text } from '../ui/Text';
 import { User } from '@phosphor-icons/react/dist/csr/User';
 import { SignOut } from '@phosphor-icons/react/dist/csr/SignOut';
 import { Gear } from '@phosphor-icons/react/dist/csr/Gear';

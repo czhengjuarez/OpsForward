@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Text, Button, Surface, Badge } from '@cloudflare/kumo';
+import { Text } from '../components/ui/Text';
+import { Button } from '../components/ui/Button';
+import { Surface } from '../components/ui/Surface';
+import { Badge } from '../components/ui/Badge';
 import { Plus } from '@phosphor-icons/react/dist/csr/Plus';
 import { Pencil } from '@phosphor-icons/react/dist/csr/Pencil';
 import { Trash } from '@phosphor-icons/react/dist/csr/Trash';
@@ -162,9 +165,9 @@ export default function Dashboard() {
                         <Text weight="semibold">{site.name}</Text>
                       </td>
                       <td className="p-4">
-                        <a 
-                          href={site.url} 
-                          target="_blank" 
+                        <a
+                          href={site.url}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
                         >
@@ -172,7 +175,7 @@ export default function Dashboard() {
                         </a>
                       </td>
                       <td className="p-4">
-                        <Badge 
+                        <Badge
                           variant={getStatusColor(site.status)}
                           size="sm"
                         >
@@ -199,8 +202,8 @@ export default function Dashboard() {
                               Edit
                             </Button>
                           </Link>
-                          <Button 
-                            variant="outlined" 
+                          <Button
+                            variant="outlined"
                             size="sm"
                             onClick={() => handleDelete(site.id)}
                           >

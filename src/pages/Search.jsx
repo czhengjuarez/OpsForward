@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Text, Button } from '@cloudflare/kumo'
+import { Text } from '../components/ui/Text'
+import { Button } from '../components/ui/Button'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { Sparkle } from '@phosphor-icons/react/dist/csr/Sparkle'
 import SiteCard from '../components/site/SiteCard'
@@ -27,7 +28,7 @@ export default function Search() {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const response = await fetch(`${API_URL}/search?q=${encodeURIComponent(searchQuery)}`)
       const data = await response.json()
-      
+
       setResults(data.sites || [])
     } catch (error) {
       console.error('Search error:', error)
@@ -98,7 +99,7 @@ export default function Search() {
           <div>
             <div className="mb-6">
               <Text color="secondary">
-                {results.length > 0 
+                {results.length > 0
                   ? `Found ${results.length} result${results.length === 1 ? '' : 's'} for "${searchParams.get('q')}"`
                   : `No results found for "${searchParams.get('q')}"`
                 }

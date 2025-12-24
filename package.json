@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-beta.4",
-    "@cloudflare/kumo": "file:../../CF/kumo/packages/kumo",
     "@cloudflare/kv-asset-handler": "^0.4.1",
     "@phosphor-icons/react": "^2.1.9",
     "@tanstack/react-query": "^5.90.12",

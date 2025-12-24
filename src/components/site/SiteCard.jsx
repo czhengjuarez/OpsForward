@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Surface, Text, Badge } from '@cloudflare/kumo'
+import { Surface } from '../ui/Surface'
+import { Text } from '../ui/Text'
+import { Badge } from '../ui/Badge'
 import { Heart } from '@phosphor-icons/react/dist/csr/Heart'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
 
@@ -32,18 +34,18 @@ export default function SiteCard({ site }) {
   const handleLike = async (e) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (isProcessing) return
-    
+
     setIsProcessing(true)
-    
+
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const response = await fetch(`${API_URL}/sites/${site.id}/like`, {
         method: 'POST',
         credentials: 'include'
       })
-      
+
       if (response.ok) {
         const data = await response.json()
         // Update with actual count and liked state from server
@@ -69,10 +71,10 @@ export default function SiteCard({ site }) {
 
   const tags = typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags;
   const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'https://px-tester-api.px-tester.workers.dev';
-  
+
   // Use thumbnail_url if available, otherwise screenshot_url, handle both local and external URLs
   const imageUrl = site.thumbnail_url || site.screenshot_url;
-  const imageSrc = imageUrl 
+  const imageSrc = imageUrl
     ? (imageUrl.startsWith('http') ? imageUrl : `${API_URL}${imageUrl}`)
     : null;
 
@@ -82,7 +84,7 @@ export default function SiteCard({ site }) {
         {/* Screenshot or placeholder */}
         <div className="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
           {imageSrc ? (
-            <img 
+            <img
               src={imageSrc}
               alt={site.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -131,9 +133,8 @@ export default function SiteCard({ site }) {
                 onClick={handleLike}
                 disabled={isProcessing}
                 data-interactive
-                className={`flex items-center gap-1.5 transition-all hover:scale-110 ${
-                  liked ? 'text-red-500' : 'hover:text-red-500'
-                }`}
+                className={`flex items-center gap-1.5 transition-all hover:scale-110 ${liked ? 'text-red-500' : 'hover:text-red-500'
+                  }`}
                 aria-label={liked ? 'Unlike this site' : 'Like this site'}
                 title={liked ? 'Click to unlike' : 'Click to like'}
               >

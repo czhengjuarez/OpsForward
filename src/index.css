@@ -2,7 +2,7 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-@import '@cloudflare/kumo/styles';
+
 
 @layer utilities {
   .dotted-pattern {

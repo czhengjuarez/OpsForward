@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Text, Badge } from '@cloudflare/kumo'
+import { Button } from '../components/ui/Button'
+import { Text } from '../components/ui/Text'
+import { Badge } from '../components/ui/Badge'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { TrendUp } from '@phosphor-icons/react/dist/csr/TrendUp'
 import SiteCard from '../components/site/SiteCard'
@@ -57,7 +59,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
               Our Living Catalog of &quot;What If?&quot;
             </h1>
-            
+
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               A sandbox for the PX team and beyond. We&apos;re using AI to bridge the gap between design and code. See what we&apos;re building, then add your own.
             </p>
@@ -98,7 +100,7 @@ export default function Home() {
                   </button>
                 </Link>
               ) : (
-                <button 
+                <button
                   onClick={login}
                   className="px-6 py-3 bg-transparent text-white font-semibold rounded-lg border-2 border-white hover:bg-white hover:text-gray-900 transition-colors"
                 >

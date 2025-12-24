@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Text, Button, Surface } from '@cloudflare/kumo';
+import { Text } from '../components/ui/Text';
+import { Button } from '../components/ui/Button';
+import { Surface } from '../components/ui/Surface';
 import { UploadSimple } from '@phosphor-icons/react/dist/csr/UploadSimple';
 import { X } from '@phosphor-icons/react/dist/csr/X';
 import { useAuth } from '../contexts/AuthContext';
@@ -45,7 +47,7 @@ export default function SubmitSite() {
       const response = await fetch(`${API_URL}/categories`);
       const data = await response.json();
       setCategories(data.categories || []);
-      
+
       // Set default category to first one's slug if not editing
       if (!editId && data.categories?.length > 0) {
         setFormData(prev => ({ ...prev, category: data.categories[0].slug }));
@@ -91,7 +93,7 @@ export default function SubmitSite() {
         credentials: 'include'
       });
       const data = await response.json();
-      
+
       if (response.ok && data.site) {
         const site = data.site;
         setFormData({
@@ -170,41 +172,41 @@ export default function SubmitSite() {
 
     try {
       const tags = formData.tags.split(',').map(t => t.trim()).filter(Boolean);
-      
+
       // Upload image first if there is one
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
-      
+
       let thumbnailUrl = null;
       if (imageFile) {
         const imageFormData = new FormData();
         imageFormData.append('image', imageFile);
-        
+
         const imageResponse = await fetch(`${API_URL}/upload/image`, {
           method: 'POST',
           credentials: 'include',
           body: imageFormData
         });
-        
+
         if (imageResponse.ok) {
           const imageData = await imageResponse.json();
           thumbnailUrl = imageData.url;
         }
       }
-      
-      const url = editId 
+
+      const url = editId
         ? `${API_URL}/sites/${editId}`
         : `${API_URL}/sites`;
       const method = editId ? 'PUT' : 'POST';
-      
+
       const payload = {
         ...formData,
         tags
       };
-      
+
       if (thumbnailUrl) {
         payload.thumbnail_url = thumbnailUrl;
       }
-      
+
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -360,11 +362,10 @@ export default function SubmitSite() {
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                  dragActive
+                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10'
                     : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                }`}
+                  }`}
               >
                 {imagePreview ? (
                   <div className="relative">

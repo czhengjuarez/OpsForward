@@ -1,4 +1,4 @@
-import { Text } from '@cloudflare/kumo'
+import { Text } from '../components/ui/Text'
 
 export default function About() {
   return (

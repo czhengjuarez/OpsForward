@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Text, Button, Surface, Badge } from '@cloudflare/kumo'
+import { Text } from '../components/ui/Text'
+import { Button } from '../components/ui/Button'
+import { Surface } from '../components/ui/Surface'
+import { Badge } from '../components/ui/Badge'
 import { Check } from '@phosphor-icons/react/dist/csr/Check'
 import { X } from '@phosphor-icons/react/dist/csr/X'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
@@ -37,14 +40,14 @@ export default function Admin() {
       const timeoutId = setTimeout(() => {
         fetchAllSites()
       }, 500)
-      
+
       return () => clearTimeout(timeoutId)
     } else if (activeTab === 'users') {
       // Debounce search - wait 500ms after user stops typing
       const timeoutId = setTimeout(() => {
         fetchUsers()
       }, 500)
-      
+
       return () => clearTimeout(timeoutId)
     } else if (activeTab === 'categories') {
       fetchCategories()
@@ -58,11 +61,11 @@ export default function Admin() {
       const response = await fetch(`${API_URL}/admin/pending`, {
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch pending sites')
       }
-      
+
       const data = await response.json()
       setPendingSites(data.sites || [])
     } catch (err) {
@@ -80,11 +83,11 @@ export default function Admin() {
         method: 'POST',
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to approve site')
       }
-      
+
       // Remove from pending list
       setPendingSites(pendingSites.filter(site => site.id !== siteId))
     } catch (err) {
@@ -102,11 +105,11 @@ export default function Admin() {
         method: 'POST',
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to reject site')
       }
-      
+
       // Remove from pending list
       setPendingSites(pendingSites.filter(site => site.id !== siteId))
     } catch (err) {
@@ -123,16 +126,16 @@ export default function Admin() {
       const params = new URLSearchParams()
       if (siteSearchQuery) params.append('search', siteSearchQuery)
       if (statusFilter) params.append('status', statusFilter)
-      
+
       const url = `${API_URL}/admin/sites${params.toString() ? '?' + params.toString() : ''}`
       const response = await fetch(url, {
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch sites')
       }
-      
+
       const data = await response.json()
       setAllSites(data.sites || [])
     } catch (err) {
@@ -148,22 +151,22 @@ export default function Admin() {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const url = `${API_URL}/admin/sites/${siteId}/toggle-featured`
       console.log('[Admin] Toggling featured for site:', siteId, 'URL:', url)
-      
+
       const response = await fetch(url, {
         method: 'POST',
         credentials: 'include'
       })
-      
+
       console.log('[Admin] Toggle response status:', response.status)
       const data = await response.json()
       console.log('[Admin] Toggle response data:', data)
-      
+
       if (!response.ok) {
         throw new Error(data.error || 'Failed to toggle featured status')
       }
-      
+
       console.log('[Admin] Successfully toggled, new status:', data.is_featured)
-      
+
       // Refresh sites list
       fetchAllSites()
     } catch (err) {
@@ -184,11 +187,11 @@ export default function Admin() {
         credentials: 'include',
         body: JSON.stringify({ status })
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to update site status')
       }
-      
+
       // Refresh sites list
       fetchAllSites()
     } catch (err) {
@@ -202,18 +205,18 @@ export default function Admin() {
     try {
       setLoading(true)
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
-      const url = searchQuery 
+      const url = searchQuery
         ? `${API_URL}/admin/users?search=${encodeURIComponent(searchQuery)}`
         : `${API_URL}/admin/users`
-      
+
       const response = await fetch(url, {
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch users')
       }
-      
+
       const data = await response.json()
       setUsers(data.users || [])
     } catch (err) {
@@ -233,11 +236,11 @@ export default function Admin() {
         credentials: 'include',
         body: JSON.stringify({ role: newRole })
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to upgrade user')
       }
-      
+
       // Refresh users list
       fetchUsers()
     } catch (err) {
@@ -289,7 +292,7 @@ export default function Admin() {
       })
 
       const data = await response.json()
-      
+
       if (response.ok) {
         setBackfillStatus({
           success: true,
@@ -330,7 +333,7 @@ export default function Admin() {
 
   const handleCreateCategory = async (e) => {
     e.preventDefault()
-    
+
     if (!newCategoryName.trim()) {
       alert('Category name is required')
       return
@@ -350,7 +353,7 @@ export default function Admin() {
       })
 
       const data = await response.json()
-      
+
       if (response.ok) {
         setNewCategoryName('')
         setNewCategoryDescription('')
@@ -399,7 +402,7 @@ export default function Admin() {
               </Text>
             </div>
             {user.role === 'super_admin' && (
-              <Button 
+              <Button
                 onClick={handleBackfillEmbeddings}
                 disabled={backfillLoading}
                 variant="secondary"
@@ -424,44 +427,40 @@ export default function Admin() {
         <div className="flex gap-2 mb-8 border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab('sites')}
-            className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-              activeTab === 'sites'
+            className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'sites'
                 ? 'border-blue-600 text-blue-600 dark:text-blue-400'
                 : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-            }`}
+              }`}
           >
             Pending Sites
           </button>
           {user.role === 'super_admin' && (
             <button
               onClick={() => setActiveTab('manage')}
-              className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-                activeTab === 'manage'
+              className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'manage'
                   ? 'border-blue-600 text-blue-600 dark:text-blue-400'
                   : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-              }`}
+                }`}
             >
               Manage Sites
             </button>
           )}
           <button
             onClick={() => setActiveTab('users')}
-            className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-              activeTab === 'users'
+            className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'users'
                 ? 'border-blue-600 text-blue-600 dark:text-blue-400'
                 : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-            }`}
+              }`}
           >
             Users
           </button>
           {user.role === 'super_admin' && (
             <button
               onClick={() => setActiveTab('categories')}
-              className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-                activeTab === 'categories'
+              className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'categories'
                   ? 'border-blue-600 text-blue-600 dark:text-blue-400'
                   : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-              }`}
+                }`}
             >
               Categories
             </button>
@@ -479,103 +478,103 @@ export default function Admin() {
         {/* Sites Tab */}
         {activeTab === 'sites' && (
           <>
-        {pendingSites.length === 0 ? (
-          <Surface className="p-12 text-center">
-            <Text color="secondary" size="lg">
-              No pending submissions to review
-            </Text>
-          </Surface>
-        ) : (
-          <div className="space-y-4">
-            {pendingSites.map((site) => (
-              <Surface key={site.id} className="p-6">
-                <div className="flex items-start justify-between gap-6">
-                  {/* Site Info */}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Text as="h3" size="xl" weight="semibold">
-                        {site.name}
-                      </Text>
-                      <Badge variant="warning" size="sm">Pending</Badge>
-                      <Badge variant="info" size="sm">{site.category}</Badge>
-                    </div>
-                    
-                    <a 
-                      href={site.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline mb-3 block"
-                    >
-                      {site.url}
-                    </a>
-                    
-                    <Text color="secondary" className="mb-3">
-                      {site.short_description}
-                    </Text>
-                    
-                    {site.description && (
-                      <Text color="secondary" size="sm" className="mb-3">
-                        {site.description}
-                      </Text>
-                    )}
-                    
-                    {site.tags && (
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {(typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags).map((tag, idx) => (
-                          <Badge key={idx} variant="secondary" size="sm">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                    
-                    <Text color="secondary" size="sm">
-                      Submitted {new Date(site.created_at).toLocaleDateString()}
-                    </Text>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex gap-2">
-                    <a
-                      href={site.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        disabled={processingId === site.id}
-                      >
-                        <Eye size={16} weight="bold" />
-                        Visit
-                      </Button>
-                    </a>
-                    
-                    <Button
-                      variant="success"
-                      size="sm"
-                      onClick={() => handleApprove(site.id)}
-                      disabled={processingId === site.id}
-                    >
-                      <Check size={16} weight="bold" />
-                      Approve
-                    </Button>
-                    
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleReject(site.id)}
-                      disabled={processingId === site.id}
-                    >
-                      <X size={16} weight="bold" />
-                      Reject
-                    </Button>
-                  </div>
-                </div>
+            {pendingSites.length === 0 ? (
+              <Surface className="p-12 text-center">
+                <Text color="secondary" size="lg">
+                  No pending submissions to review
+                </Text>
               </Surface>
-            ))}
-          </div>
-        )}
+            ) : (
+              <div className="space-y-4">
+                {pendingSites.map((site) => (
+                  <Surface key={site.id} className="p-6">
+                    <div className="flex items-start justify-between gap-6">
+                      {/* Site Info */}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Text as="h3" size="xl" weight="semibold">
+                            {site.name}
+                          </Text>
+                          <Badge variant="warning" size="sm">Pending</Badge>
+                          <Badge variant="info" size="sm">{site.category}</Badge>
+                        </div>
+
+                        <a
+                          href={site.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 hover:underline mb-3 block"
+                        >
+                          {site.url}
+                        </a>
+
+                        <Text color="secondary" className="mb-3">
+                          {site.short_description}
+                        </Text>
+
+                        {site.description && (
+                          <Text color="secondary" size="sm" className="mb-3">
+                            {site.description}
+                          </Text>
+                        )}
+
+                        {site.tags && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {(typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags).map((tag, idx) => (
+                              <Badge key={idx} variant="secondary" size="sm">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+
+                        <Text color="secondary" size="sm">
+                          Submitted {new Date(site.created_at).toLocaleDateString()}
+                        </Text>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-2">
+                        <a
+                          href={site.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            disabled={processingId === site.id}
+                          >
+                            <Eye size={16} weight="bold" />
+                            Visit
+                          </Button>
+                        </a>
+
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() => handleApprove(site.id)}
+                          disabled={processingId === site.id}
+                        >
+                          <Check size={16} weight="bold" />
+                          Approve
+                        </Button>
+
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleReject(site.id)}
+                          disabled={processingId === site.id}
+                        >
+                          <X size={16} weight="bold" />
+                          Reject
+                        </Button>
+                      </div>
+                    </div>
+                  </Surface>
+                ))}
+              </div>
+            )}
           </>
         )}
 
@@ -662,9 +661,9 @@ export default function Admin() {
                           )}
                         </td>
                         <td className="p-4">
-                          <a 
-                            href={site.url} 
-                            target="_blank" 
+                          <a
+                            href={site.url}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
                           >
@@ -672,7 +671,7 @@ export default function Admin() {
                           </a>
                         </td>
                         <td className="p-4">
-                          <Badge 
+                          <Badge
                             variant={site.status === 'approved' ? 'success' : site.status === 'pending' ? 'warning' : 'danger'}
                             size="sm"
                           >
@@ -768,7 +767,7 @@ export default function Admin() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <Text weight="semibold">{u.name}</Text>
-                            <Badge 
+                            <Badge
                               variant={u.role === 'super_admin' ? 'success' : u.role === 'admin' ? 'info' : 'secondary'}
                               size="sm"
                             >

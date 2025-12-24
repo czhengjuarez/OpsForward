@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Text, Button, Badge, Surface } from '@cloudflare/kumo';
+import { Text } from '../components/ui/Text'
+import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
+import { Surface } from '../components/ui/Surface'
 import { ArrowLeft } from '@phosphor-icons/react/dist/csr/ArrowLeft';
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
 import { Calendar } from '@phosphor-icons/react/dist/csr/Calendar';
@@ -62,19 +65,19 @@ export default function SiteDetail() {
 
   const site = data.site
   const similarSites = data.similarSites || []
-  
+
   const handleLike = async () => {
     if (isLiking) return
-    
+
     setIsLiking(true)
-    
+
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const response = await fetch(`${API_URL}/sites/${id}/like`, {
         method: 'POST',
         credentials: 'include'
       })
-      
+
       if (response.ok) {
         const data = await response.json()
         // Update with actual count and liked state from server
@@ -89,10 +92,10 @@ export default function SiteDetail() {
       setIsLiking(false)
     }
   }
-  
+
   const handleShare = async () => {
     const url = window.location.href
-    
+
     if (navigator.share) {
       try {
         await navigator.share({
@@ -110,7 +113,7 @@ export default function SiteDetail() {
       copyToClipboard(url)
     }
   }
-  
+
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -122,10 +125,10 @@ export default function SiteDetail() {
 
   const tags = site?.tags ? (typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags) : [];
   const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'https://px-tester-api.px-tester.workers.dev';
-  
+
   // Handle both local and external screenshot URLs
   const screenshotUrl = site?.screenshot_url;
-  const screenshotSrc = screenshotUrl 
+  const screenshotSrc = screenshotUrl
     ? (screenshotUrl.startsWith('http') ? screenshotUrl : `${API_URL}${screenshotUrl}`)
     : null;
 
@@ -157,9 +160,9 @@ export default function SiteDetail() {
                   <Text as="h1" size="4xl" weight="bold" className="mb-2">
                     {site.name}
                   </Text>
-                  <a 
-                    href={site.url} 
-                    target="_blank" 
+                  <a
+                    href={site.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
@@ -179,9 +182,9 @@ export default function SiteDetail() {
               {/* Stats */}
               <div className="flex items-center gap-6 text-gray-600 dark:text-gray-400">
                 <div className="flex items-center gap-2" role="img" aria-label={`${likeCount.toLocaleString()} likes`}>
-                  <Heart 
-                    size={20} 
-                    weight={liked ? "fill" : "regular"} 
+                  <Heart
+                    size={20}
+                    weight={liked ? "fill" : "regular"}
                     className={liked ? "text-red-500" : "text-gray-400"}
                     aria-hidden="true"
                   />
@@ -201,7 +204,7 @@ export default function SiteDetail() {
             {/* Screenshot */}
             <Surface className="mb-8 overflow-hidden">
               {site.thumbnail_url ? (
-                <img 
+                <img
                   src={site.thumbnail_url.startsWith('http') ? site.thumbnail_url : `${API_URL}${site.thumbnail_url}`}
                   alt={site.name}
                   className="w-full aspect-video object-cover"
@@ -230,10 +233,10 @@ export default function SiteDetail() {
           <div>
             <Surface className="p-6 sticky top-24">
               <Text weight="bold" className="mb-4">Quick Actions</Text>
-              
+
               <div className="flex gap-2">
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   className="flex-1 justify-center"
                   onClick={handleLike}
                   disabled={isLiking}
@@ -241,8 +244,8 @@ export default function SiteDetail() {
                   <Heart size={20} weight={liked ? 'fill' : 'regular'} className={liked ? 'text-red-500' : ''} />
                   {liked ? 'Liked' : 'Like'}
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   className="flex-1 justify-center"
                   onClick={handleShare}
                 >

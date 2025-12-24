@@ -2,13 +2,14 @@ name = "ops-forward-api"
 main = "worker/src/index.js"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
+account_id = "d6ff2f0914adb1d9faae77870fadb7cc"
 workers_dev = true
 
 # D1 Database binding
 [[d1_databases]]
 binding = "DB"
-database_name = "px-tester-db"
-database_id = "04077aab-abb7-4663-8049-6a2ba62f95d5"
+database_name = "ops-forward-db"
+database_id = "" # To be generated
 migrations_dir = "worker/migrations"
 
 # Vectorize binding for AI embeddings
