@@ -4,6 +4,7 @@ import { Text } from '../components/ui/Text'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Surface } from '../components/ui/Surface'
+import SafeHTML from '../components/ui/SafeHTML'
 import { ArrowLeft } from '@phosphor-icons/react/dist/csr/ArrowLeft';
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
 import { Calendar } from '@phosphor-icons/react/dist/csr/Calendar';
@@ -94,30 +95,30 @@ export default function SiteDetail() {
   }
 
   const handleShare = async () => {
-    const url = window.location.href
+    const siteUrl = site.url
 
     if (navigator.share) {
       try {
         await navigator.share({
           title: site.name,
-          text: site.short_description,
-          url: url
+          text: site.short_description || site.description,
+          url: siteUrl
         })
       } catch (err) {
         // User cancelled or error - fallback to clipboard
         if (err.name !== 'AbortError') {
-          copyToClipboard(url)
+          copyToClipboard(siteUrl)
         }
       }
     } else {
-      copyToClipboard(url)
+      copyToClipboard(siteUrl)
     }
   }
 
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text)
-      alert('Link copied to clipboard!')
+      alert('URL copied to clipboard!')
     } catch (err) {
       console.error('Failed to copy:', err)
     }
@@ -218,14 +219,12 @@ export default function SiteDetail() {
               )}
             </Surface>
 
-            {/* Description */}
+            {/* Full Description */}
             <div className="mb-8">
-              <Text as="h2" size="2xl" weight="bold" className="mb-4">
-                About
-              </Text>
-              <Text size="lg" color="secondary" className="leading-relaxed">
-                {site.description}
-              </Text>
+              <SafeHTML 
+                html={site.description || '<p>No description provided.</p>'} 
+                className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
+              />
             </div>
           </div>
 
@@ -272,7 +271,7 @@ export default function SiteDetail() {
               <div>
                 <Text weight="semibold" className="mb-3">About</Text>
                 <Text size="sm" color="secondary" className="leading-relaxed">
-                  {site.description}
+                  {site.short_description || site.description}
                 </Text>
               </div>
             </Surface>

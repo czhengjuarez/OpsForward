@@ -28,6 +28,7 @@ A modern site showcase platform built with Cloudflare Workers, React, and Tailwi
 #### 3. **Site Submission**
 - ✅ Submit site form with validation
 - ✅ Site metadata (name, URL, description, category, tags)
+- ✅ **Rich Text Editor** - WYSIWYG editor for formatted descriptions (bold, italic, headings, lists, links)
 - ✅ Sites saved to Cloudflare D1 database
 - ✅ Pending approval workflow
 
@@ -177,9 +178,11 @@ If migrating from v3 to v4:
 - **React 18** - UI framework
 - **Vite** - Build tool and dev server
 - **Cloudflare Kumo** - Component library and design system
-- **TailwindCSS** - Utility-first CSS
+- **Tailwind CSS v4** - Utility-first CSS framework
 - **React Router** - Client-side routing
 - **Phosphor Icons** - Icon library
+- **React Quill** - WYSIWYG rich text editor
+- **DOMPurify** - HTML sanitization for safe rendering
 
 ### Backend
 - **Cloudflare Workers** - Serverless compute
