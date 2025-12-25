@@ -9,7 +9,7 @@ workers_dev = true
 [[d1_databases]]
 binding = "DB"
 database_name = "ops-forward-db"
-database_id = "" # To be generated
+database_id = "f5f00a48-6e7c-4b01-b1d3-d2f52c5dd5eb"
 migrations_dir = "worker/migrations"
 
 # Vectorize binding for AI embeddings
@@ -32,8 +32,8 @@ binding = "BROWSER"
 
 # CORS configuration
 [vars]
-FRONTEND_URL = "https://demo.pxtester.com"
-GOOGLE_REDIRECT_URI = "https://px-tester-api.px-tester.workers.dev/api/auth/google/callback"
+FRONTEND_URL = "https://ops-forward.coscient.workers.dev"
+GOOGLE_REDIRECT_URI = "https://ops-forward-api.coscient.workers.dev/api/auth/google/callback"
 
 # Observability - Logging configuration
 [observability]

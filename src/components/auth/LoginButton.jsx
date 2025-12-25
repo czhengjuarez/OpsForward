@@ -11,7 +11,7 @@ export default function LoginButton({ variant = 'primary', size = 'md', classNam
   };
 
   const variantClasses = {
-    primary: 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800',
+    primary: 'bg-gray-700 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-900',
     outlined: 'bg-transparent border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'
   };
 

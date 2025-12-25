@@ -164,7 +164,7 @@ export default function SiteDetail() {
                     href={site.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                    className="text-primary-600 dark:text-primary-400 hover:underline"
                   >
                     <Text size="lg">{site.url}</Text>
                   </a>
@@ -210,7 +210,7 @@ export default function SiteDetail() {
                   className="w-full aspect-video object-cover"
                 />
               ) : (
-                <div className="w-full aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="w-full aspect-video bg-gradient-to-br from-primary-400 to-primary-800 flex items-center justify-center">
                   <Text size="4xl" weight="bold" className="text-white opacity-50">
                     {site.name.charAt(0)}
                   </Text>

@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="text-left">
           <div className="mb-2">
             <Text size="lg" weight="bold">
-              PX LAB
+              OpsForward
             </Text>
           </div>
           <div className="mb-6">
@@ -19,7 +19,7 @@ export default function Footer() {
             </Link>
           </div>
           <Text color="secondary" size="xs">
-            © {currentYear} PX LAB. Built with Cloudflare products.
+            © {currentYear} OpsForward. Built with Cloudflare products.
           </Text>
         </div>
       </div>

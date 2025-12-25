@@ -57,11 +57,11 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Heading */}
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
-              Our Living Catalog of &quot;What If?&quot;
+              OpsForward Living Catalog.
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              A sandbox for the PX team and beyond. We&apos;re using AI to bridge the gap between design and code. See what we&apos;re building, then add your own.
+             The future of Ops is collaborative, AI-powered, and open. Find tools like capacity calculators, agent briefing canvases, readiness assessments, and more. Explore the collection, contribute your own, and let's build the next generation of Ops tools together.
             </p>
 
             {/* Search Bar */}
@@ -89,23 +89,25 @@ export default function Home() {
             {/* CTA Buttons */}
             <div className="flex items-center justify-center gap-4">
               <Link to="/browse">
-                <button className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg">
+                <Button variant="primary" size="lg">
                   Browse Catalog
-                </button>
+                </Button>
               </Link>
               {isAuthenticated ? (
                 <Link to="/submit">
-                  <button className="px-6 py-3 bg-transparent text-white font-semibold rounded-lg border-2 border-white hover:bg-white hover:text-gray-900 transition-colors">
+                  <Button variant="outlined" size="lg" className="text-white border-white hover:bg-white hover:text-gray-900">
                     Submit Your Site
-                  </button>
+                  </Button>
                 </Link>
               ) : (
-                <button
+                <Button
                   onClick={login}
-                  className="px-6 py-3 bg-transparent text-white font-semibold rounded-lg border-2 border-white hover:bg-white hover:text-gray-900 transition-colors"
+                  variant="outlined"
+                  size="lg"
+                  className="text-white border-white hover:bg-white hover:text-gray-900"
                 >
                   Log in to Submit Your Site
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -150,7 +152,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <TrendUp size={32} weight="bold" className="text-blue-600" />
+              <TrendUp size={32} weight="bold" className="text-primary-600" />
               <Text as="h2" size="3xl" weight="bold">
                 Recently Added
               </Text>
@@ -169,12 +171,12 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-orange-500 dark:bg-orange-600">
+      <section className="py-20 bg-primary-600 dark:bg-primary-700">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Share Your Website?
           </h2>
-          <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
             Join our community and showcase your work to thousands of visitors
           </p>
           <Link to="/submit" className="inline-block">

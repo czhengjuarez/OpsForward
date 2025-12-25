@@ -12,14 +12,14 @@ const Card = ({
     <div
       className={clsx(
         'bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-slate-700/50',
-        'hover:shadow-2xl hover:border-purple-500/50 transition-all duration-300',
+        'hover:shadow-2xl hover:border-primary-500/50 transition-all duration-300',
         'hover:-translate-y-1',
         className
       )}
       {...props}
     >
       {icon && (
-        <div className="text-purple-400 mb-4 flex justify-center">
+        <div className="text-primary-400 mb-4 flex justify-center">
           {icon}
         </div>
       )}

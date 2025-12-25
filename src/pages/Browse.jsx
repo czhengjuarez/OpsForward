@@ -73,7 +73,7 @@ export default function Browse() {
                   setPage(1)
                 }}
                 className={`px-4 py-2 rounded-lg transition-all border-2 ${selectedCategory === category.id
-                    ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-medium'
+                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/10 text-primary-600 dark:text-primary-400 font-medium'
                     : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
               >
@@ -99,7 +99,7 @@ export default function Browse() {
                     setPage(1)
                   }}
                   className={`px-3 py-1.5 rounded-md text-sm transition-all border-2 ${sortBy === option.value
-                      ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/10 text-orange-600 dark:text-orange-400 font-medium'
+                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/10 text-primary-600 dark:text-primary-400 font-medium'
                       : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                     }`}
                 >
@@ -165,8 +165,8 @@ export default function Browse() {
                         key={pageNum}
                         onClick={() => setPage(pageNum)}
                         className={`w-10 h-10 rounded-lg transition-all border ${page === pageNum
-                            ? 'border-blue-600 bg-blue-600 text-white'
-                            : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500'
+                            ? 'border-primary-600 bg-primary-600 text-white'
+                            : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-primary-400 dark:hover:border-primary-500'
                           }`}
                       >
                         {pageNum}

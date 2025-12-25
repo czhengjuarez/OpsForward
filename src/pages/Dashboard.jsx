@@ -169,7 +169,7 @@ export default function Dashboard() {
                           href={site.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                          className="text-primary-600 dark:text-primary-400 hover:underline text-sm"
                         >
                           {site.url.length > 40 ? site.url.substring(0, 40) + '...' : site.url}
                         </a>

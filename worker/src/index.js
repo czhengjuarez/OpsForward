@@ -15,7 +15,7 @@ import {
   handleAcceptInvite
 } from './routes.js';
 import { handleSearch } from './search.js';
-import { handleCreateCategory } from './category-routes.js';
+import { handleCreateCategory, handleDeleteCategory } from './category-routes.js';
 import {
   handleGetPendingSites,
   handleApproveSite,
@@ -41,9 +41,11 @@ export default {
     
     // CORS headers - support multiple frontend origins
     const allowedOrigins = [
-      'https://demo.px-tester.workers.dev',
-      'https://demo.pxtester.com',
-      'http://localhost:5173' // for local development
+      'https://ops-forward.coscient.workers.dev',
+      'https://ops-forward.pages.dev',
+      'https://af4a8ee6.ops-forward.pages.dev',
+      'http://localhost:5173', // for local development
+      'http://localhost:4173'  // for local preview
     ];
     
     const origin = request.headers.get('Origin');
@@ -114,6 +116,11 @@ export default {
 
       if (url.pathname === '/api/categories' && request.method === 'POST') {
         return handleCreateCategory(request, env, user, corsHeaders);
+      }
+
+      if (url.pathname.match(/^\/api\/categories\/[^/]+$/) && request.method === 'DELETE') {
+        const categoryId = url.pathname.split('/')[3];
+        return handleDeleteCategory(env, user, categoryId, corsHeaders);
       }
 
       if (url.pathname.match(/^\/api\/sites\/[^/]+\/like$/) && request.method === 'POST') {

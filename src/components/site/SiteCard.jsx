@@ -82,7 +82,7 @@ export default function SiteCard({ site }) {
     <div onClick={handleCardClick} role="article" aria-label={`${site.name} - ${site.category} site`}>
       <Surface className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col">
         {/* Screenshot or placeholder */}
-        <div className="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
+        <div className="aspect-video bg-gradient-to-br from-primary-400 to-primary-800 relative overflow-hidden">
           {imageSrc ? (
             <img
               src={imageSrc}
@@ -104,7 +104,7 @@ export default function SiteCard({ site }) {
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1 min-w-0">
-              <Text as="h3" size="lg" weight="semibold" className="truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <Text as="h3" size="lg" weight="semibold" className="truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                 {site.name}
               </Text>
               <Text color="secondary" size="sm" className="truncate">

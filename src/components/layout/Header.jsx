@@ -17,7 +17,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <span className="text-xl font-bold text-gray-900 dark:text-white">
-              PX LAB
+              OpsForward
             </span>
           </Link>
 

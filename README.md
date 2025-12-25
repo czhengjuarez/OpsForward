@@ -1,11 +1,11 @@
-# PX LAB - Site Showcase Platform
+# OpsForward - Living Catalog
 
-A modern site showcase platform built with Cloudflare Workers, React, and Cloudflare's Kumo design system. Users can submit, browse, and discover beautiful websites with an admin approval workflow.
+A modern site showcase platform built with Cloudflare Workers, React, and Tailwind CSS. Users can submit, browse, and discover beautiful websites with an admin approval workflow. A sandbox for the Ops team and beyond, bridging the gap between design and code.
 
 ## 🚀 Live Demo
 
-- **Frontend**: https://demo.px-tester.workers.dev
-- **API**: https://px-tester-api.px-tester.workers.dev
+- **Frontend**: https://ops-forward.coscient.workers.dev
+- **API**: https://ops-forward-api.coscient.workers.dev
 
 ## ✅ What's Working
 
@@ -44,6 +44,10 @@ A modern site showcase platform built with Cloudflare Workers, React, and Cloudf
 - ✅ Reject sites (hides from public view)
 - ✅ Visit button to preview sites
 - ✅ Authentication-protected admin routes
+- ✅ **Category Management** - Create and delete categories
+- ✅ **User Management** - View users, upgrade to admin
+- ✅ **Invite System** - Create invite codes for new users
+- ✅ **Super Admin Role** - Full access to all admin features
 
 #### 6. **Browse & Discovery**
 - ✅ Browse all approved sites
@@ -51,6 +55,90 @@ A modern site showcase platform built with Cloudflare Workers, React, and Cloudf
 - ✅ Sort by newest/oldest
 - ✅ Pagination
 - ✅ Placeholder gradients for sites without screenshots
+
+## 🎨 Tailwind CSS v4 - Important Notes
+
+This project uses **Tailwind CSS v4**, which has significant breaking changes from v3. Understanding these differences is critical for styling to work correctly.
+
+### Key Differences from v3
+
+#### ❌ What Doesn't Work Anymore
+1. **`tailwind.config.js` for theme colors** - Config file is ignored for custom colors
+2. **`extend.colors` in config** - Theme extensions must be in CSS
+3. **Traditional `@tailwind` directives** - Use `@import 'tailwindcss'` instead
+
+#### ✅ What You Must Do Instead
+
+**1. Define Custom Colors in CSS using `@theme`**
+
+In `src/index.css`:
+```css
+@import 'tailwindcss';
+
+@theme {
+  --color-primary-50: #fdf2f7;
+  --color-primary-100: #fce7f0;
+  --color-primary-200: #fad1e3;
+  --color-primary-300: #f5a8ca;
+  --color-primary-400: #ee74a7;
+  --color-primary-500: #e34584;
+  --color-primary-600: #c92d6a;
+  --color-primary-700: #8F1F57;  /* Main brand color */
+  --color-primary-800: #751a48;
+  --color-primary-900: #5f173c;
+  --color-primary-950: #3a0d23;
+  --color-primary: #8F1F57;
+}
+```
+
+**2. Use Vite Plugin**
+
+In `vite.config.js`:
+```js
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()]
+})
+```
+
+**3. Dark Mode Variant**
+
+Define dark mode in CSS:
+```css
+@variant dark (&:where(.dark, .dark *));
+```
+
+### Common Issues & Solutions
+
+#### Issue: Custom colors not applying
+**Cause**: Colors defined in `tailwind.config.js` instead of CSS  
+**Solution**: Move all color definitions to `@theme` block in CSS
+
+#### Issue: `bg-primary-700` shows as gray/default
+**Cause**: CSS variables not defined with correct naming convention  
+**Solution**: Use `--color-{name}-{shade}` format (note the `color-` prefix)
+
+#### Issue: Build works but colors don't show in browser
+**Cause**: Browser cache or old build artifacts  
+**Solution**: Hard refresh (Cmd+Shift+R) and clear site data
+
+### Migration Checklist
+
+If migrating from v3 to v4:
+- [ ] Remove color definitions from `tailwind.config.js`
+- [ ] Add `@theme` block to main CSS file
+- [ ] Define colors as `--color-{name}-{shade}`
+- [ ] Change `@tailwind` to `@import 'tailwindcss'`
+- [ ] Add `@tailwindcss/vite` plugin
+- [ ] Test all custom colors in browser
+- [ ] Clear browser cache after deployment
+
+### Resources
+- [Tailwind v4 Beta Docs](https://tailwindcss.com/docs/v4-beta)
+- [v4 Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
+
+---
 
 ## ⚠️ What's Missing (Known Issues)
 
@@ -128,14 +216,23 @@ npm install
 
 Create `.env` file:
 ```
-VITE_API_URL=https://px-tester-api.px-tester.workers.dev/api
+VITE_API_URL=https://ops-forward-api.coscient.workers.dev/api
 ```
 
 4. **Set up Cloudflare Workers secrets**
+
+**IMPORTANT**: When setting secrets, paste the value and press **Ctrl+D** (not Enter) to avoid adding newline characters.
+
 ```bash
 wrangler secret put GOOGLE_CLIENT_ID
+# Paste value, then Ctrl+D (NOT Enter!)
+
 wrangler secret put GOOGLE_CLIENT_SECRET
+# Paste value, then Ctrl+D (NOT Enter!)
+
 wrangler secret put SESSION_SECRET
+# Generate with: openssl rand -base64 32
+# Paste value, then Ctrl+D (NOT Enter!)
 ```
 
 ### Development
@@ -235,9 +332,17 @@ px-tester/
 - `GET /api/admin/pending` - List pending sites (authenticated)
 - `POST /api/admin/sites/:id/approve` - Approve site (authenticated)
 - `POST /api/admin/sites/:id/reject` - Reject site (authenticated)
+- `GET /api/admin/users` - List all users (super admin)
+- `POST /api/admin/users/:id/upgrade` - Upgrade user to admin (super admin)
+- `DELETE /api/admin/users/:id` - Delete user (super admin)
+- `POST /api/admin/invites` - Create invite code (super admin)
+- `GET /api/admin/invites` - List all invites (super admin)
+- `DELETE /api/admin/invites/:code` - Revoke invite (super admin)
 
 ### Categories
 - `GET /api/categories` - List all categories
+- `POST /api/categories` - Create category (super admin)
+- `DELETE /api/categories/:id` - Delete category (super admin)
 
 ## 🐛 Known Issues & Troubleshooting
 
@@ -278,12 +383,13 @@ px-tester/
 |-------|---------|--------|
 | 1 | UI/UX Foundation | ✅ Complete |
 | 2 | Backend & Database | ✅ Complete |
-| 3 | Authentication | ✅ Complete |
+| 3 | Authentication | ✅ Complete (Google OAuth) |
 | 4 | Site Submission | ✅ Complete |
 | 5 | AI Semantic Search | ⚠️ Backend ready, API not working |
 | 6 | Screenshot Capture | ⚠️ Backend ready, API not working |
 | 7 | Admin Panel | ✅ Complete |
-| 8 | User Management | 📋 Planned |
+| 8 | User Management | ✅ Complete (roles, invites, category mgmt) |
+| 9 | Tailwind v4 Migration | ✅ Complete |
 
 ## 🎯 Next Steps
 
@@ -303,10 +409,14 @@ px-tester/
 
 ## 📝 Notes
 
-- The app is **fully functional** for core features (submission, browsing, admin approval)
+- The app is **fully functional** for core features (submission, browsing, admin approval, user management)
 - AI and screenshot features are **optional enhancements** that don't block core functionality
 - Gradient placeholders provide a beautiful fallback for missing screenshots
 - The codebase is **production-ready** for the working features
+- **Tailwind v4** requires CSS-based theme configuration - see Tailwind v4 section above
+- Brand color: `#8F1F57` (burgundy/wine red)
+- Google OAuth is fully working for authentication
+- Invite system allows controlled user registration
 
 ## License
 

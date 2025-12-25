@@ -61,7 +61,7 @@ export default function Search() {
         <div className="max-w-3xl mx-auto mb-12">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkle size={32} weight="fill" className="text-blue-600" />
+              <Sparkle size={32} weight="fill" className="text-primary-600" />
               <Text as="h1" size="3xl" weight="bold">
                 AI-Powered Search
               </Text>
