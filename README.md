@@ -16,8 +16,9 @@ A modern site showcase platform built with Cloudflare Workers, React, and Tailwi
 - ✅ Beautiful UI using Cloudflare Kumo components
 - ✅ Home page with featured sites
 - ✅ Browse page with filtering by category
-- ✅ Site detail pages
+- ✅ Site detail pages with "Live Site" pill buttons
 - ✅ Search page (UI only, backend pending)
+- ✅ Native share menu integration (AirDrop, Mail, Copy, etc.)
 
 #### 2. **Authentication**
 - ✅ Google OAuth integration

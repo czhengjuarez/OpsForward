@@ -101,7 +101,6 @@ export default function SiteDetail() {
       try {
         await navigator.share({
           title: site.name,
-          text: site.short_description || site.description,
           url: siteUrl
         })
       } catch (err) {
@@ -165,9 +164,10 @@ export default function SiteDetail() {
                     href={site.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-600 dark:text-primary-400 hover:underline"
+                    className="inline-flex items-center gap-2 px-4 py-2 mt-2 text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 rounded-full transition-colors"
                   >
-                    <Text size="lg">{site.url}</Text>
+                    Live Site
+                    <ArrowUpRight size={16} weight="bold" />
                   </a>
                 </div>
               </div>

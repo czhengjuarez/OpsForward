@@ -5,6 +5,7 @@ import { Text } from '../ui/Text'
 import { Badge } from '../ui/Badge'
 import { Heart } from '@phosphor-icons/react/dist/csr/Heart'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
 
 export default function SiteCard({ site }) {
   const navigate = useNavigate()
@@ -107,9 +108,17 @@ export default function SiteCard({ site }) {
               <Text as="h3" size="lg" weight="semibold" className="truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                 {site.name}
               </Text>
-              <Text color="secondary" size="sm" className="truncate">
-                {site.url.replace(/^https?:\/\//, '')}
-              </Text>
+              <a
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                data-interactive
+                className="inline-flex items-center gap-1.5 px-3 py-1 mt-2 text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 rounded-full transition-colors"
+              >
+                Live Site
+                <ArrowUpRight size={14} weight="bold" />
+              </a>
             </div>
           </div>
 
