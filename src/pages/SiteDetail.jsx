@@ -126,8 +126,8 @@ export default function SiteDetail() {
   const tags = site?.tags ? (typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags) : [];
   const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'https://px-tester-api.px-tester.workers.dev';
 
-  // Handle both local and external screenshot URLs
-  const screenshotUrl = site?.screenshot_url;
+  // Handle both local and external screenshot URLs, fall back to thumbnail
+  const screenshotUrl = site?.screenshot_url || site?.thumbnail_url;
   const screenshotSrc = screenshotUrl
     ? (screenshotUrl.startsWith('http') ? screenshotUrl : `${API_URL}${screenshotUrl}`)
     : null;
