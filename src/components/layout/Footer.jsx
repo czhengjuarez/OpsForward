@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-20">
+    <footer className="bg-[var(--of-bg-recessed)] border-t border-[var(--of-border-line)] mt-20">
       <div className="container mx-auto px-4 py-12">
         <div className="text-left">
           <div className="mb-2">
@@ -14,7 +14,7 @@ export default function Footer() {
             </Text>
           </div>
           <div className="mb-6">
-            <Link to="/about" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+            <Link to="/about" className="text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)] transition-colors">
               <Text>About</Text>
             </Link>
           </div>

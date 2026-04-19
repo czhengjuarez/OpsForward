@@ -17,7 +17,7 @@ import { useSite } from '../hooks/useSites';
 
 export default function SiteDetail() {
   const { id } = useParams()
-  const { data, isLoading, isError, refetch } = useSite(id)
+  const { data, isLoading, isError, error, refetch } = useSite(id)
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
   const [isLiking, setIsLiking] = useState(false)
@@ -144,7 +144,7 @@ export default function SiteDetail() {
     <div className="min-h-screen py-8">
       <div className="container mx-auto px-4">
         {/* Back Button */}
-        <Link to="/browse" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors">
+        <Link to="/browse" className="inline-flex items-center gap-2 text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)] mb-8 transition-colors">
           <ArrowLeft size={20} />
           <Text>Back to Browse</Text>
         </Link>
@@ -164,7 +164,7 @@ export default function SiteDetail() {
                     href={site.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 mt-2 text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 rounded-full transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 mt-2 text-sm font-medium text-[var(--of-fg-brand)] bg-[var(--of-bg-brand-tint)] hover:brightness-95 rounded-full transition-colors"
                   >
                     Live Site
                     <ArrowUpRight size={16} weight="bold" />
@@ -175,21 +175,21 @@ export default function SiteDetail() {
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="info">{site.category}</Badge>
-                {site.tags.map((tag) => (
-                  <Badge key={tag} variant="neutral">{tag}</Badge>
+                {tags.map((tag) => (
+                  <Badge key={tag} variant="default">{tag}</Badge>
                 ))}
               </div>
 
               {/* Stats */}
-              <div className="flex items-center gap-6 text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-6 text-[var(--of-fg-muted)]">
                 <div className="flex items-center gap-2" role="img" aria-label={`${likeCount.toLocaleString()} likes`}>
                   <Heart
                     size={20}
                     weight={liked ? "fill" : "regular"}
-                    className={liked ? "text-red-500" : "text-gray-400"}
+                    className={liked ? "text-[var(--of-danger-500)]" : "text-[var(--of-fg-muted)]"}
                     aria-hidden="true"
                   />
-                  <Text className={liked ? "text-red-500 font-semibold" : ""}>{likeCount.toLocaleString()} likes</Text>
+                  <Text className={liked ? "text-[var(--of-danger-500)] font-semibold" : ""}>{likeCount.toLocaleString()} likes</Text>
                 </div>
                 <div className="flex items-center gap-2" role="img" aria-label={`${site.views.toLocaleString()} views`}>
                   <Eye size={20} aria-hidden="true" />
@@ -204,14 +204,14 @@ export default function SiteDetail() {
 
             {/* Screenshot */}
             <Surface className="mb-8 overflow-hidden">
-              {site.thumbnail_url ? (
+              {screenshotSrc ? (
                 <img
-                  src={site.thumbnail_url.startsWith('http') ? site.thumbnail_url : `${API_URL}${site.thumbnail_url}`}
+                  src={screenshotSrc}
                   alt={site.name}
                   className="w-full aspect-video object-cover"
                 />
               ) : (
-                <div className="w-full aspect-video bg-gradient-to-br from-primary-400 to-primary-800 flex items-center justify-center">
+                <div className="w-full aspect-video bg-[var(--of-gradient-brand)] flex items-center justify-center">
                   <Text size="4xl" weight="bold" className="text-white opacity-50">
                     {site.name.charAt(0)}
                   </Text>
@@ -223,7 +223,7 @@ export default function SiteDetail() {
             <div className="mb-8">
               <SafeHTML 
                 html={site.description || '<p>No description provided.</p>'} 
-                className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
+                className="text-lg text-[var(--of-fg-muted)] leading-relaxed"
               />
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function SiteDetail() {
                   onClick={handleLike}
                   disabled={isLiking}
                 >
-                  <Heart size={20} weight={liked ? 'fill' : 'regular'} className={liked ? 'text-red-500' : ''} />
+                  <Heart size={20} weight={liked ? 'fill' : 'regular'} className={liked ? 'text-[var(--of-danger-500)]' : ''} />
                   {liked ? 'Liked' : 'Like'}
                 </Button>
                 <Button
@@ -259,14 +259,14 @@ export default function SiteDetail() {
                 </a>
               </div>
 
-              <div className="border-t border-gray-200 dark:border-gray-700 my-6" />
+              <div className="border-t border-[var(--of-border-line)] my-6" />
 
               <div className="mb-6">
                 <Text weight="semibold" className="mb-2">Category</Text>
                 <Badge variant="info">{site.category}</Badge>
               </div>
 
-              <div className="border-t border-gray-200 dark:border-gray-700 my-6" />
+              <div className="border-t border-[var(--of-border-line)] my-6" />
 
               <div>
                 <Text weight="semibold" className="mb-3">About</Text>

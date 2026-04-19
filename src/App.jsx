@@ -16,7 +16,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <div className="min-h-screen flex flex-col bg-[var(--of-bg-base)] text-[var(--of-fg-default)]">
           <Header />
           <main className="flex-1">
             <Routes>
@@ -59,31 +59,16 @@ function App() {
   )
 }
 
-// Placeholder components
-function ComingSoon({ page }) {
-  return (
-    <div className="min-h-screen flex items-center justify-center py-20">
-      <div className="text-center">
-        <div className="text-6xl mb-4">🚧</div>
-        <h1 className="text-3xl font-bold mb-2">{page} - Coming Soon</h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          This feature will be available in Phase {page === 'Search' ? '5' : '4'}
-        </p>
-      </div>
-    </div>
-  )
-}
-
 function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center py-20">
       <div className="text-center">
         <div className="text-6xl mb-4">404</div>
         <h1 className="text-3xl font-bold mb-2">Page Not Found</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <p className="text-[var(--of-fg-muted)] mb-6">
           The page you&apos;re looking for doesn&apos;t exist.
         </p>
-        <a href="/" className="text-blue-600 hover:underline">
+        <a href="/" className="text-[var(--of-fg-brand)] hover:underline">
           Go back home
         </a>
       </div>

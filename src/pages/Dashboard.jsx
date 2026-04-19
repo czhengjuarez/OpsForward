@@ -114,8 +114,8 @@ export default function Dashboard() {
           {!loading && !error && sites.length === 0 && (
             <Surface className="p-12 text-center">
               <div className="max-w-md mx-auto">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Plus size={32} className="text-gray-400" />
+                <div className="w-16 h-16 bg-[var(--of-bg-recessed)] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Plus size={32} className="text-[var(--of-fg-muted)]" />
                 </div>
                 <Text size="xl" weight="semibold" className="mb-2">
                   No sites yet
@@ -136,7 +136,7 @@ export default function Dashboard() {
           {!loading && !error && sites.length > 0 && (
             <Surface>
               <table className="w-full">
-                <thead className="border-b border-gray-200 dark:border-gray-700">
+                <thead className="border-b border-[var(--of-border-line)]">
                   <tr>
                     <th className="text-left p-4">
                       <Text weight="semibold" size="sm">Site Name</Text>
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 </thead>
                 <tbody>
                   {sites.map((site) => (
-                    <tr key={site.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <tr key={site.id} className="border-b border-[var(--of-border-line)] hover:bg-[var(--of-bg-recessed)]">
                       <td className="p-4">
                         <Text weight="semibold">{site.name}</Text>
                       </td>
@@ -169,7 +169,7 @@ export default function Dashboard() {
                           href={site.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-primary-600 dark:text-primary-400 hover:underline text-sm"
+                          className="text-[var(--of-fg-brand)] hover:underline text-sm"
                         >
                           {site.url.length > 40 ? site.url.substring(0, 40) + '...' : site.url}
                         </a>
@@ -184,13 +184,13 @@ export default function Dashboard() {
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
-                          <Eye size={16} className="text-gray-400" />
+                          <Eye size={16} className="text-[var(--of-fg-muted)]" />
                           <Text size="sm">{site.views || 0}</Text>
                         </div>
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
-                          <Heart size={16} className="text-gray-400" />
+                          <Heart size={16} className="text-[var(--of-fg-muted)]" />
                           <Text size="sm">{site.likes || 0}</Text>
                         </div>
                       </td>

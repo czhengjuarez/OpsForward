@@ -31,7 +31,7 @@ export default {
               ASSET_MANIFEST: assetManifest,
             }
           );
-        } catch (err) {
+        } catch {
           return new Response('Not Found', { status: 404 });
         }
       }

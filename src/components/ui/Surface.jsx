@@ -1,4 +1,3 @@
-import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const Surface = ({
@@ -8,7 +7,7 @@ export const Surface = ({
     elevation = 'sm', // 'none', 'sm', 'md', 'lg'
     ...props
 }) => {
-    const baseStyles = 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg';
+    const baseStyles = 'bg-[var(--of-bg-elevated)] border border-[var(--of-border-line)] rounded-lg';
 
     const elevations = {
         none: '',

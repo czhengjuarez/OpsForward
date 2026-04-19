@@ -13,7 +13,6 @@ export default function Home() {
   const navigate = useNavigate()
   const [featuredSites, setFeaturedSites] = useState([])
   const [recentSites, setRecentSites] = useState([])
-  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
@@ -44,15 +43,13 @@ export default function Home() {
       setRecentSites(data.sites || [])
     } catch (error) {
       console.error('Failed to fetch recent sites:', error)
-    } finally {
-      setLoading(false)
     }
   }
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gray-900 py-20 dotted-pattern">
+      <section className="bg-[var(--of-gray-900)] py-20 dotted-pattern">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             {/* Heading */}
@@ -60,8 +57,8 @@ export default function Home() {
               OpsForward Living Catalog.
             </h1>
 
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-             The future of Ops is collaborative, AI-powered, and open. Find tools like capacity calculators, agent briefing canvases, readiness assessments, and more. Explore the collection, contribute your own, and let's build the next generation of Ops tools together.
+            <p className="text-xl text-[var(--of-gray-300)] mb-8 max-w-2xl mx-auto">
+             The future of Ops is collaborative, AI-powered, and open. Find tools like capacity calculators, agent briefing canvases, readiness assessments, and more. Explore the collection, contribute your own, and let&apos;s build the next generation of Ops tools together.
             </p>
 
             {/* Search Bar */}
@@ -72,14 +69,14 @@ export default function Home() {
                   navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
                 }
               }}>
-                <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl p-4 hover:shadow-lg transition-shadow border border-gray-300 dark:border-gray-700 shadow-sm">
-                  <MagnifyingGlass size={24} className="text-gray-400 dark:text-gray-400" />
+                <div className="flex items-center gap-3 bg-[var(--of-bg-elevated)] rounded-xl p-4 hover:shadow-lg transition-shadow border border-[var(--of-border-line)] shadow-sm">
+                  <MagnifyingGlass size={24} className="text-[var(--of-fg-muted)]" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search for websites, tools, inspiration..."
-                    className="flex-1 bg-transparent text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-none"
+                    className="flex-1 bg-transparent text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] outline-none"
                   />
                   <Badge variant="info" size="sm">AI</Badge>
                 </div>
@@ -95,7 +92,7 @@ export default function Home() {
               </Link>
               {isAuthenticated ? (
                 <Link to="/submit">
-                  <Button variant="outlined" size="lg" className="text-white border-white hover:bg-white hover:text-gray-900">
+                  <Button variant="outlined" size="lg" className="text-white border-white hover:bg-white hover:text-[var(--of-gray-900)]">
                     Submit Your Site
                   </Button>
                 </Link>
@@ -104,7 +101,7 @@ export default function Home() {
                   onClick={login}
                   variant="outlined"
                   size="lg"
-                  className="text-white border-white hover:bg-white hover:text-gray-900"
+                  className="text-white border-white hover:bg-white hover:text-[var(--of-gray-900)]"
                 >
                   Log in to Submit Your Site
                 </Button>
@@ -148,11 +145,11 @@ export default function Home() {
       </section>
 
       {/* Recent Submissions */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 bg-[var(--of-bg-recessed)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <TrendUp size={32} weight="bold" className="text-primary-600" />
+              <TrendUp size={32} weight="bold" className="text-[var(--of-fg-brand)]" />
               <Text as="h2" size="3xl" weight="bold">
                 Recently Added
               </Text>
@@ -171,12 +168,12 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-600 dark:bg-primary-700">
+      <section className="py-20 bg-[var(--of-bg-brand)]">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Share Your Website?
           </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-[var(--of-magenta-100)] mb-8 max-w-2xl mx-auto">
             Join our community and showcase your work to thousands of visitors
           </p>
           <Link to="/submit" className="inline-block">

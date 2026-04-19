@@ -1,4 +1,3 @@
-import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const Text = ({
@@ -28,11 +27,11 @@ export const Text = ({
     };
 
     const colors = {
-        default: 'text-gray-900 dark:text-gray-100',
-        secondary: 'text-gray-500 dark:text-gray-400',
-        primary: 'text-primary-600 dark:text-primary-400',
+        default: 'text-[var(--of-fg-default)]',
+        secondary: 'text-[var(--of-fg-muted)]',
+        primary: 'text-[var(--of-fg-brand)]',
         white: 'text-white',
-        danger: 'text-red-600 dark:text-red-400',
+        danger: 'text-[var(--of-danger-500)]',
     };
 
     return (

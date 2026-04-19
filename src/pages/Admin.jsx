@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Text } from '../components/ui/Text'
 import { Button } from '../components/ui/Button'
@@ -31,28 +31,6 @@ export default function Admin() {
   const [newCategoryName, setNewCategoryName] = useState('')
   const [newCategoryDescription, setNewCategoryDescription] = useState('')
   const [categoryLoading, setCategoryLoading] = useState(false)
-
-  useEffect(() => {
-    if (activeTab === 'sites') {
-      fetchPendingSites()
-    } else if (activeTab === 'manage') {
-      // Debounce search - wait 500ms after user stops typing
-      const timeoutId = setTimeout(() => {
-        fetchAllSites()
-      }, 500)
-
-      return () => clearTimeout(timeoutId)
-    } else if (activeTab === 'users') {
-      // Debounce search - wait 500ms after user stops typing
-      const timeoutId = setTimeout(() => {
-        fetchUsers()
-      }, 500)
-
-      return () => clearTimeout(timeoutId)
-    } else if (activeTab === 'categories') {
-      fetchCategories()
-    }
-  }, [activeTab, searchQuery, siteSearchQuery, statusFilter])
 
   const fetchPendingSites = async () => {
     try {
@@ -119,7 +97,7 @@ export default function Admin() {
     }
   }
 
-  const fetchAllSites = async () => {
+  const fetchAllSites = useCallback(async () => {
     try {
       setLoading(true)
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
@@ -143,7 +121,7 @@ export default function Admin() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [siteSearchQuery, statusFilter])
 
   const handleToggleFeatured = async (siteId) => {
     try {
@@ -201,7 +179,7 @@ export default function Admin() {
     }
   }
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true)
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
@@ -224,7 +202,27 @@ export default function Admin() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchQuery])
+
+  useEffect(() => {
+    if (activeTab === 'sites') {
+      fetchPendingSites()
+    } else if (activeTab === 'manage') {
+      const timeoutId = setTimeout(() => {
+        fetchAllSites()
+      }, 500)
+
+      return () => clearTimeout(timeoutId)
+    } else if (activeTab === 'users') {
+      const timeoutId = setTimeout(() => {
+        fetchUsers()
+      }, 500)
+
+      return () => clearTimeout(timeoutId)
+    } else if (activeTab === 'categories') {
+      fetchCategories()
+    }
+  }, [activeTab, siteSearchQuery, statusFilter, searchQuery, fetchAllSites, fetchUsers])
 
   const handleUpgradeUser = async (userId, newRole) => {
     try {
@@ -440,7 +438,7 @@ export default function Admin() {
             )}
           </div>
           {backfillStatus && (
-            <div className={`mt-4 p-4 rounded-lg ${backfillStatus.success ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200'}`}>
+            <div className={`mt-4 p-4 rounded-lg ${backfillStatus.success ? 'bg-[var(--of-success-100)] text-[var(--of-success-500)]' : 'bg-[var(--of-danger-100)] text-[var(--of-danger-500)]'}`}>
               <Text>{backfillStatus.message}</Text>
               {backfillStatus.data && (
                 <Text size="sm" className="mt-2">
@@ -452,12 +450,12 @@ export default function Admin() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-8 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex gap-2 mb-8 border-b border-[var(--of-border-line)]">
           <button
             onClick={() => setActiveTab('sites')}
             className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'sites'
-                ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                ? 'border-[var(--of-border-brand)] text-[var(--of-fg-brand)]'
+                : 'border-transparent text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)]'
               }`}
           >
             Pending Sites
@@ -466,8 +464,8 @@ export default function Admin() {
             <button
               onClick={() => setActiveTab('manage')}
               className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'manage'
-                  ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  ? 'border-[var(--of-border-brand)] text-[var(--of-fg-brand)]'
+                  : 'border-transparent text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)]'
                 }`}
             >
               Manage Sites
@@ -476,8 +474,8 @@ export default function Admin() {
           <button
             onClick={() => setActiveTab('users')}
             className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'users'
-                ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                ? 'border-[var(--of-border-brand)] text-[var(--of-fg-brand)]'
+                : 'border-transparent text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)]'
               }`}
           >
             Users
@@ -486,8 +484,8 @@ export default function Admin() {
             <button
               onClick={() => setActiveTab('categories')}
               className={`px-4 py-2 font-medium transition-colors border-b-2 ${activeTab === 'categories'
-                  ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  ? 'border-[var(--of-border-brand)] text-[var(--of-fg-brand)]'
+                  : 'border-transparent text-[var(--of-fg-muted)] hover:text-[var(--of-fg-default)]'
                 }`}
             >
               Categories
@@ -531,7 +529,7 @@ export default function Admin() {
                           href={site.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-primary-600 dark:text-primary-400 hover:underline mb-3 block"
+                          className="text-[var(--of-fg-brand)] hover:underline mb-3 block"
                         >
                           {site.url}
                         </a>
@@ -612,19 +610,19 @@ export default function Admin() {
             {/* Search and Filter */}
             <div className="mb-6 flex gap-4">
               <div className="relative flex-1">
-                <MagnifyingGlass size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <MagnifyingGlass size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--of-fg-muted)]" />
                 <input
                   type="text"
                   placeholder="Search sites by name, URL, or description..."
                   value={siteSearchQuery}
                   onChange={(e) => setSiteSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 />
               </div>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
               >
                 <option value="">All Status</option>
                 <option value="pending">Pending</option>
@@ -643,7 +641,7 @@ export default function Admin() {
             ) : (
               <Surface className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="border-b border-gray-200 dark:border-gray-700">
+                  <thead className="border-b border-[var(--of-border-line)]">
                     <tr>
                       <th className="text-left p-4">
                         <div className="flex flex-col">
@@ -670,14 +668,14 @@ export default function Admin() {
                   </thead>
                   <tbody>
                     {allSites.map((site) => (
-                      <tr key={site.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                      <tr key={site.id} className="border-b border-[var(--of-border-line)] hover:bg-[var(--of-bg-recessed)]">
                         <td className="p-4">
                           <input
                             type="checkbox"
                             checked={site.is_featured === 1}
                             onChange={() => handleToggleFeatured(site.id)}
                             disabled={processingId === site.id}
-                            className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:opacity-50"
+                            className="w-5 h-5 rounded border-[var(--of-border-line)] text-[var(--of-bg-brand)] focus:ring-[var(--of-ring)] cursor-pointer disabled:opacity-50"
                           />
                         </td>
                         <td className="p-4">
@@ -693,7 +691,7 @@ export default function Admin() {
                             href={site.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                            className="text-[var(--of-fg-brand)] hover:underline text-sm"
                           >
                             {site.url.length > 40 ? site.url.substring(0, 40) + '...' : site.url}
                           </a>
@@ -760,13 +758,13 @@ export default function Admin() {
             {/* Search */}
             <div className="mb-6">
               <div className="relative">
-                <MagnifyingGlass size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <MagnifyingGlass size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--of-fg-muted)]" />
                 <input
                   type="text"
                   placeholder="Search users by name or email..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 />
               </div>
             </div>
@@ -788,7 +786,7 @@ export default function Admin() {
                         {u.avatar_url ? (
                           <img src={u.avatar_url} alt={u.name} className="w-12 h-12 rounded-full" />
                         ) : (
-                          <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+                          <div className="w-12 h-12 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center text-white font-bold">
                             {u.name?.charAt(0) || 'U'}
                           </div>
                         )}
@@ -870,7 +868,7 @@ export default function Admin() {
               </Text>
               <form onSubmit={handleCreateCategory} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-[var(--of-fg-muted)]">
                     Category Name *
                   </label>
                   <input
@@ -878,12 +876,12 @@ export default function Admin() {
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
                     placeholder="e.g., AI Tools, Design, Development"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-[var(--of-fg-muted)]">
                     Description (Optional)
                   </label>
                   <textarea
@@ -891,7 +889,7 @@ export default function Admin() {
                     onChange={(e) => setNewCategoryDescription(e.target.value)}
                     placeholder="Brief description of this category..."
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                   />
                 </div>
                 <Button type="submit" variant="primary" disabled={categoryLoading}>
@@ -914,7 +912,7 @@ export default function Admin() {
                   {categories.map((category) => (
                     <div
                       key={category.id}
-                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                      className="p-4 border border-[var(--of-border-line)] rounded-lg"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">

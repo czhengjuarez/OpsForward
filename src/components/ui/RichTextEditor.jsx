@@ -29,7 +29,7 @@ export default function RichTextEditor({ value, onChange, placeholder }) {
         modules={modules}
         formats={formats}
         placeholder={placeholder}
-        className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+        className="bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)]"
       />
     </div>
   );

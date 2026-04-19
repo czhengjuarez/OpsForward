@@ -28,7 +28,7 @@ export default function UserMenu() {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--of-bg-recessed)] transition-colors"
       >
         {user.avatar_url ? (
           <img
@@ -37,37 +37,37 @@ export default function UserMenu() {
             className="w-8 h-8 rounded-full"
           />
         ) : (
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center">
             <User size={20} weight="bold" className="text-white" />
           </div>
         )}
-        <Text weight="medium" className="hidden md:block text-gray-900 dark:text-white">{user.name}</Text>
+        <Text weight="medium" className="hidden md:block">{user.name}</Text>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
-          <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-            <Text weight="semibold" className="text-gray-900 dark:text-white">{user.name}</Text>
-            <Text size="sm" className="text-gray-600 dark:text-gray-400">{user.email}</Text>
+        <div className="absolute right-0 mt-2 w-56 bg-[var(--of-bg-elevated)] rounded-lg shadow-xl border border-[var(--of-border-line)] py-2 z-50">
+          <div className="px-4 py-2 border-b border-[var(--of-border-line)]">
+            <Text weight="semibold">{user.name}</Text>
+            <Text size="sm" color="secondary">{user.email}</Text>
           </div>
 
           <Link
             to="/dashboard"
-            className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+            className="flex items-center gap-3 px-4 py-2 hover:bg-[var(--of-bg-recessed)] transition-colors text-[var(--of-fg-muted)]"
             onClick={() => setIsOpen(false)}
           >
             <User size={20} />
-            <Text className="text-gray-900 dark:text-white">Dashboard</Text>
+            <Text>Dashboard</Text>
           </Link>
 
           {user.role === 'admin' || user.role === 'super_admin' ? (
             <Link
               to="/admin"
-              className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+              className="flex items-center gap-3 px-4 py-2 hover:bg-[var(--of-bg-recessed)] transition-colors text-[var(--of-fg-muted)]"
               onClick={() => setIsOpen(false)}
             >
               <Gear size={20} />
-              <Text className="text-gray-900 dark:text-white">Admin Panel</Text>
+              <Text>Admin Panel</Text>
             </Link>
           ) : null}
 
@@ -76,10 +76,10 @@ export default function UserMenu() {
               setIsOpen(false);
               logout();
             }}
-            className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-red-600 dark:text-red-400"
+            className="w-full flex items-center gap-3 px-4 py-2 hover:bg-[var(--of-bg-recessed)] transition-colors text-[var(--of-danger-500)]"
           >
             <SignOut size={20} />
-            <Text className="text-red-600 dark:text-red-400">Sign Out</Text>
+            <Text className="text-[var(--of-danger-500)]">Sign Out</Text>
           </button>
         </div>
       )}

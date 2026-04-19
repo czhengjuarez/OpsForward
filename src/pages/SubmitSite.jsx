@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Text } from '../components/ui/Text';
 import { Button } from '../components/ui/Button';
@@ -9,7 +9,7 @@ import { X } from '@phosphor-icons/react/dist/csr/X';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function SubmitSite() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editId = searchParams.get('edit');
@@ -30,19 +30,7 @@ export default function SubmitSite() {
     tags: ''
   });
 
-  const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    if (editId && isAuthenticated) {
-      fetchSiteData();
-    }
-  }, [editId, isAuthenticated]);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api';
       const response = await fetch(`${API_URL}/categories`);
@@ -58,7 +46,11 @@ export default function SubmitSite() {
       // Fallback to empty array if fetch fails
       setCategories([]);
     }
-  };
+  }, [editId]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   // Add paste event listener for clipboard images
   useEffect(() => {
@@ -87,7 +79,7 @@ export default function SubmitSite() {
     return () => document.removeEventListener('paste', handlePaste);
   }, []);
 
-  const fetchSiteData = async () => {
+  const fetchSiteData = useCallback(async () => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://px-tester-api.px-tester.workers.dev/api'
       const response = await fetch(`${API_URL}/sites/${editId}`, {
@@ -106,12 +98,18 @@ export default function SubmitSite() {
           tags: Array.isArray(site.tags) ? site.tags.join(', ') : (typeof site.tags === 'string' ? JSON.parse(site.tags).join(', ') : '')
         });
       }
-    } catch (err) {
+    } catch {
       setError('Failed to load site data');
     } finally {
       setLoadingData(false);
     }
-  };
+  }, [editId]);
+
+  useEffect(() => {
+    if (editId && isAuthenticated) {
+      fetchSiteData();
+    }
+  }, [editId, isAuthenticated, fetchSiteData]);
 
   if (!isAuthenticated) {
     return (
@@ -127,6 +125,14 @@ export default function SubmitSite() {
         </div>
       </div>
     );
+  }
+
+  if (loadingData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center py-20">
+        <Text color="secondary">Loading site data...</Text>
+      </div>
+    )
   }
 
   const handleChange = (e) => {
@@ -252,8 +258,8 @@ export default function SubmitSite() {
         <Surface className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                <Text className="text-red-600 dark:text-red-400">{error}</Text>
+              <div className="p-4 bg-[var(--of-danger-100)] border border-[var(--of-danger-500)] rounded-lg">
+                <Text className="text-[var(--of-danger-500)]">{error}</Text>
               </div>
             )}
 
@@ -267,7 +273,7 @@ export default function SubmitSite() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 placeholder="My Awesome Site"
               />
             </div>
@@ -282,7 +288,7 @@ export default function SubmitSite() {
                 value={formData.url}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 placeholder="https://example.com"
               />
             </div>
@@ -298,7 +304,7 @@ export default function SubmitSite() {
                 onChange={handleChange}
                 required
                 maxLength={100}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 placeholder="A brief one-liner about your site"
               />
               <Text size="sm" color="secondary" className="mt-1">
@@ -326,7 +332,7 @@ export default function SubmitSite() {
                 value={formData.category}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
               >
                 {categories.map(cat => (
                   <option key={cat.id} value={cat.slug}>{cat.name}</option>
@@ -343,7 +349,7 @@ export default function SubmitSite() {
                 name="tags"
                 value={formData.tags}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-[var(--of-border-line)] rounded-lg bg-[var(--of-bg-elevated)] text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] focus:ring-2 focus:ring-[var(--of-ring)] focus:border-transparent"
                 placeholder="react, nextjs, tailwind (comma-separated)"
               />
               <Text size="sm" color="secondary" className="mt-1">
@@ -361,8 +367,8 @@ export default function SubmitSite() {
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
                 className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10'
-                    : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                    ? 'border-[var(--of-border-brand)] bg-[var(--of-bg-brand-tint)]'
+                    : 'border-[var(--of-border-line)] hover:border-[var(--of-gray-400)]'
                   }`}
               >
                 {imagePreview ? (
@@ -378,14 +384,14 @@ export default function SubmitSite() {
                         setImageFile(null);
                         setImagePreview(null);
                       }}
-                      className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                      className="absolute top-2 right-2 p-2 bg-[var(--of-danger-500)] text-white rounded-full hover:brightness-95 transition-colors"
                     >
                       <X size={20} weight="bold" />
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <UploadSimple size={48} className="mx-auto mb-4 text-gray-400" />
+                    <UploadSimple size={48} className="mx-auto mb-4 text-[var(--of-fg-muted)]" />
                     <Text weight="semibold" className="mb-2">
                       Drag and drop, paste, or click to select an image
                     </Text>

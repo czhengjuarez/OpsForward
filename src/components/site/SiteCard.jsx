@@ -70,7 +70,6 @@ export default function SiteCard({ site }) {
     navigate(`/site/${site.id}`)
   }
 
-  const tags = typeof site.tags === 'string' ? JSON.parse(site.tags) : site.tags;
   const API_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'https://px-tester-api.px-tester.workers.dev';
 
   // Use thumbnail_url if available, otherwise screenshot_url, handle both local and external URLs
@@ -83,7 +82,7 @@ export default function SiteCard({ site }) {
     <div onClick={handleCardClick} role="article" aria-label={`${site.name} - ${site.category} site`}>
       <Surface className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col">
         {/* Screenshot or placeholder */}
-        <div className="aspect-video bg-gradient-to-br from-primary-400 to-primary-800 relative overflow-hidden">
+        <div className="aspect-video bg-[var(--of-gradient-brand)] relative overflow-hidden">
           {imageSrc ? (
             <img
               src={imageSrc}
@@ -105,7 +104,7 @@ export default function SiteCard({ site }) {
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1 min-w-0">
-              <Text as="h3" size="lg" weight="semibold" className="truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              <Text as="h3" size="lg" weight="semibold" className="truncate group-hover:text-[var(--of-fg-brand)] transition-colors">
                 {site.name}
               </Text>
               <a
@@ -114,7 +113,7 @@ export default function SiteCard({ site }) {
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 data-interactive
-                className="inline-flex items-center gap-1.5 px-3 py-1 mt-2 text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 rounded-full transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1 mt-2 text-sm font-medium text-[var(--of-fg-brand)] bg-[var(--of-bg-brand-tint)] hover:brightness-95 rounded-full transition-colors"
               >
                 Live Site
                 <ArrowUpRight size={14} weight="bold" />
@@ -128,7 +127,7 @@ export default function SiteCard({ site }) {
           </Text>
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between pt-3 border-t border-[var(--of-border-line)]">
             {/* Category Badge */}
             <div className="flex items-center">
               <Badge variant="info" size="sm">
@@ -137,12 +136,12 @@ export default function SiteCard({ site }) {
             </div>
 
             {/* Stats */}
-            <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">
+            <div className="flex items-center gap-4 text-[var(--of-fg-muted)]">
               <button
                 onClick={handleLike}
                 disabled={isProcessing}
                 data-interactive
-                className={`flex items-center gap-1.5 transition-all hover:scale-110 ${liked ? 'text-red-500' : 'hover:text-red-500'
+                className={`flex items-center gap-1.5 transition-all hover:scale-110 ${liked ? 'text-[var(--of-danger-500)]' : 'hover:text-[var(--of-danger-500)]'
                   }`}
                 aria-label={liked ? 'Unlike this site' : 'Like this site'}
                 title={liked ? 'Click to unlike' : 'Click to like'}

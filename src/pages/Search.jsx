@@ -55,13 +55,13 @@ export default function Search() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-[var(--of-bg-base)]">
       <div className="container mx-auto px-4 py-8">
         {/* Search Header */}
         <div className="max-w-3xl mx-auto mb-12">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkle size={32} weight="fill" className="text-primary-600" />
+              <Sparkle size={32} weight="fill" className="text-[var(--of-fg-brand)]" />
               <Text as="h1" size="3xl" weight="bold">
                 AI-Powered Search
               </Text>
@@ -73,14 +73,14 @@ export default function Search() {
 
           {/* Search Form */}
           <form onSubmit={handleSearch} className="relative">
-            <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-300 dark:border-gray-700 shadow-lg">
-              <MagnifyingGlass size={24} className="text-gray-400" />
+            <div className="flex items-center gap-3 bg-[var(--of-bg-elevated)] rounded-xl p-4 border border-[var(--of-border-line)] shadow-lg">
+              <MagnifyingGlass size={24} className="text-[var(--of-fg-muted)]" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for websites, tools, inspiration..."
-                className="flex-1 bg-transparent text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-none text-lg"
+                className="flex-1 bg-transparent text-[var(--of-fg-default)] placeholder:text-[var(--of-fg-muted)] outline-none text-lg"
                 autoFocus
               />
               <Button type="submit" variant="primary" disabled={loading || !query.trim()}>

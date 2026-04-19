@@ -6,8 +6,7 @@ import {
   findOrCreateUser 
 } from './oauth.js';
 import { createSession, deleteSession, setSessionCookie, clearSessionCookie } from './auth.js';
-import { generateSiteEmbedding, searchSimilar, findSimilarSites } from './ai.js';
-import { captureScreenshot, getScreenshot } from './screenshots.js';
+import { searchSimilar } from './ai.js';
 
 // Invite routes
 export async function handleGetInvite(env, inviteCode, corsHeaders) {

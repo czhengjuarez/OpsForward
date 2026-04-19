@@ -1,21 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'react-quill/dist/quill.snow.css';
 
 @variant dark (&:where(.dark, .dark *));
 
+:root {
+  --of-magenta-50: #fff0f7;
+  --of-magenta-100: #ffd9ec;
+  --of-magenta-200: #FA96CE;
+  --of-magenta-300: #F53FA5;
+  --of-magenta-400: #D11A82;
+  --of-magenta-500: #A60E64;
+  --of-magenta-600: #80074D;
+  --of-magenta-700: #5C0538;
+  --of-magenta-800: #3B0224;
+  --of-magenta-900: #1F0113;
+  --of-gray-0: #ffffff;
+  --of-gray-25: #FBF9FB;
+  --of-gray-50: #F6F3F6;
+  --of-gray-100: #ECE7EC;
+  --of-gray-200: #DCD4DC;
+  --of-gray-300: #BDB2BD;
+  --of-gray-400: #958997;
+  --of-gray-500: #6E626F;
+  --of-gray-600: #504551;
+  --of-gray-700: #352D37;
+  --of-gray-800: #211B23;
+  --of-gray-900: #14101A;
+  --of-gray-950: #0B0810;
+  --of-success-500: #2FA775;
+  --of-success-100: #DCF3E7;
+  --of-warning-500: #D88A2B;
+  --of-warning-100: #FBEBD3;
+  --of-danger-500: #D93452;
+  --of-danger-100: #FBDDE3;
+  --of-info-500: #4A6CF7;
+  --of-info-100: #DCE2FD;
+  --of-bg-base: light-dark(var(--of-gray-25), var(--of-gray-950));
+  --of-bg-elevated: light-dark(var(--of-gray-0), var(--of-gray-900));
+  --of-bg-recessed: light-dark(var(--of-gray-50), var(--of-gray-800));
+  --of-bg-sunken: light-dark(var(--of-gray-100), #0F0B15);
+  --of-bg-brand: var(--of-magenta-600);
+  --of-bg-brand-tint: light-dark(var(--of-magenta-50), #2A0519);
+  --of-fg-default: light-dark(var(--of-gray-900), var(--of-gray-50));
+  --of-fg-muted: light-dark(var(--of-gray-600), var(--of-gray-300));
+  --of-fg-brand: light-dark(var(--of-magenta-600), var(--of-magenta-300));
+  --of-border-line: light-dark(var(--of-gray-200), var(--of-gray-700));
+  --of-border-brand: var(--of-magenta-400);
+  --of-ring: color-mix(in oklch, var(--of-magenta-400) 50%, transparent);
+  --of-gradient-brand: linear-gradient(135deg, #80074D 0%, #B01273 45%, #FB41AA 100%);
+  --of-font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --of-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --of-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 @theme {
-  --color-primary-50: #fdf2f7;
-  --color-primary-100: #fce7f0;
-  --color-primary-200: #fad1e3;
-  --color-primary-300: #f5a8ca;
-  --color-primary-400: #ee74a7;
-  --color-primary-500: #e34584;
-  --color-primary-600: #c92d6a;
-  --color-primary-700: #8F1F57;
-  --color-primary-800: #751a48;
-  --color-primary-900: #5f173c;
-  --color-primary-950: #3a0d23;
-  --color-primary: #8F1F57;
+  --color-primary-50: var(--of-magenta-50);
+  --color-primary-100: var(--of-magenta-100);
+  --color-primary-200: var(--of-magenta-200);
+  --color-primary-300: var(--of-magenta-300);
+  --color-primary-400: var(--of-magenta-400);
+  --color-primary-500: var(--of-magenta-500);
+  --color-primary-600: var(--of-magenta-600);
+  --color-primary-700: var(--of-magenta-700);
+  --color-primary-800: var(--of-magenta-800);
+  --color-primary-900: var(--of-magenta-900);
+  --color-primary-950: #13000c;
+  --color-primary: var(--of-magenta-600);
 }
 
 @layer utilities {
@@ -31,7 +87,7 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--of-font-sans);
   line-height: 1.5;
   font-weight: 400;
 
@@ -46,14 +102,14 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: white;
-  color: rgb(17, 24, 39); /* gray-900 */
+  background-color: var(--of-bg-base);
+  color: var(--of-fg-default);
 }
 
 /* Dark mode */
 .dark body {
-  background-color: rgb(3, 7, 18); /* gray-950 */
-  color: rgb(243, 244, 246); /* gray-100 */
+  background-color: var(--of-bg-base);
+  color: var(--of-fg-default);
 }
 
 #root {
@@ -147,7 +203,7 @@ body {
 }
 
 .prose a {
-  color: #8F1F57;
+  color: var(--of-fg-brand);
   text-decoration: underline;
 }
 
@@ -157,5 +213,12 @@ body {
 
 .prose em {
   font-style: italic;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--of-font-display);
 }
 
