@@ -9,7 +9,15 @@ import { useAuth } from '../../contexts/AuthContext';
 export default function UserMenu() {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   const menuRef = useRef(null);
+
+  const initials = (user?.name || user?.email || 'U')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('') || 'U';
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -22,6 +30,10 @@ export default function UserMenu() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    setAvatarError(false);
+  }, [user?.avatar_url]);
+
   if (!user) return null;
 
   return (
@@ -30,15 +42,17 @@ export default function UserMenu() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--of-bg-recessed)] transition-colors"
       >
-        {user.avatar_url ? (
+        {user.avatar_url && !avatarError ? (
           <img
             src={user.avatar_url}
             alt={user.name}
             className="w-8 h-8 rounded-full"
+            referrerPolicy="no-referrer"
+            onError={() => setAvatarError(true)}
           />
         ) : (
-          <div className="w-8 h-8 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center">
-            <User size={20} weight="bold" className="text-white" />
+          <div className="w-8 h-8 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center text-white text-xs font-bold">
+            {initials}
           </div>
         )}
         <Text weight="medium" className="hidden md:block">{user.name}</Text>

@@ -24,6 +24,7 @@ export default function Admin() {
   const [statusFilter, setStatusFilter] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [avatarErrors, setAvatarErrors] = useState({})
   const [processingId, setProcessingId] = useState(null)
   const [backfillStatus, setBackfillStatus] = useState(null)
   const [backfillLoading, setBackfillLoading] = useState(false)
@@ -31,6 +32,15 @@ export default function Admin() {
   const [newCategoryName, setNewCategoryName] = useState('')
   const [newCategoryDescription, setNewCategoryDescription] = useState('')
   const [categoryLoading, setCategoryLoading] = useState(false)
+
+  const getInitials = (name, email) => {
+    const source = name || email || 'U'
+    const parts = source.split(' ').filter(Boolean)
+    if (parts.length === 1) {
+      return parts[0].slice(0, 2).toUpperCase()
+    }
+    return parts.slice(0, 2).map((part) => part[0]?.toUpperCase()).join('')
+  }
 
   const fetchPendingSites = async () => {
     try {
@@ -784,10 +794,22 @@ export default function Admin() {
                       {/* User Info */}
                       <div className="flex items-center gap-4 flex-1">
                         {u.avatar_url ? (
-                          <img src={u.avatar_url} alt={u.name} className="w-12 h-12 rounded-full" />
+                          avatarErrors[u.id] ? (
+                            <div className="w-12 h-12 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center text-white font-bold">
+                              {getInitials(u.name, u.email)}
+                            </div>
+                          ) : (
+                            <img
+                              src={u.avatar_url}
+                              alt={u.name}
+                              className="w-12 h-12 rounded-full"
+                              referrerPolicy="no-referrer"
+                              onError={() => setAvatarErrors((prev) => ({ ...prev, [u.id]: true }))}
+                            />
+                          )
                         ) : (
                           <div className="w-12 h-12 rounded-full bg-[var(--of-bg-brand)] flex items-center justify-center text-white font-bold">
-                            {u.name?.charAt(0) || 'U'}
+                            {getInitials(u.name, u.email)}
                           </div>
                         )}
                         <div className="flex-1">
