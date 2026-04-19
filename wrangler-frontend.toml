@@ -1,6 +1,7 @@
 name = "ops-forward"
 main = "frontend-worker.js"
 compatibility_date = "2024-12-01"
+account_id = "d6ff2f0914adb1d9faae77870fadb7cc"
 workers_dev = true
 
 [site]
